@@ -5,7 +5,11 @@
  */
 package main;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import javafx.scene.paint.Color;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 /**
  *
@@ -18,6 +22,68 @@ public class panel extends javax.swing.JFrame {
      */
     public panel() {
         initComponents();
+        
+        // 1. Setup the initial look
+    jTextField1.setText("Enter Username...");
+    
+
+    // 2. Add the Listener
+    jTextField1.addFocusListener(new FocusListener() {
+        @Override
+        public void focusGained(FocusEvent e) {
+            // IF text is the placeholder, clear it
+            if (jTextField1.getText().equals("Enter Username...")) {
+                jTextField1.setText("");
+              
+            }
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            // IF user didn't type anything, put the placeholder back
+            if (jTextField1.getText().isEmpty()) {
+                jTextField1.setText("Enter Username...");
+               
+            }
+        }
+
+   
+    });
+    String pass = String.valueOf(jPasswordField1.getPassword());
+
+
+    setSize(750, 500); 
+    
+    // 2. Center it
+    setLocationRelativeTo(null);
+    
+    jPasswordField1.setEchoChar((char)0); // Make visible
+jPasswordField1.setText("Enter Password");
+jPasswordField1.setForeground(new java.awt.Color(153, 153, 153)); // Gray
+
+// 2. Add the listener manually
+jPasswordField1.addFocusListener(new java.awt.event.FocusAdapter() {
+    
+    // WHEN CLICKED
+    public void focusGained(java.awt.event.FocusEvent evt) {
+        String pass = String.valueOf(jPasswordField1.getPassword());
+        if (pass.equals("Enter Password")) {
+            jPasswordField1.setText("");
+            jPasswordField1.setForeground(java.awt.Color.BLACK);
+            jPasswordField1.setEchoChar('*'); // Hide password
+        }
+    }
+
+    // WHEN LEFT
+    public void focusLost(java.awt.event.FocusEvent evt) {
+        String pass = String.valueOf(jPasswordField1.getPassword());
+        if (pass.length() == 0 || pass.equals("")) {
+            jPasswordField1.setText("Enter Password");
+            jPasswordField1.setForeground(new java.awt.Color(153, 153, 153));
+            jPasswordField1.setEchoChar((char)0); // Show text
+        }
+    }
+});
     }
         
     /**
@@ -42,7 +108,7 @@ public class panel extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
-        jPanel1.setLayout(new javax.swing.OverlayLayout(jPanel1));
+        jPanel1.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -51,9 +117,10 @@ public class panel extends javax.swing.JFrame {
         jLabel1.setText("Bike shop");
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel1.add(jLabel1);
+        jLabel1.setBounds(0, 0, 140, 40);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 780, 70);
+        jPanel1.setBounds(0, 0, 770, 70);
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setLayout(null);
@@ -105,8 +172,11 @@ public class panel extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2MouseWheelMoved
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-JOptionPane.showMessageDialog(this, "loading"); 
-landingpage landing = new landingpage();
+loading load = new loading();
+    load.setVisible(true);
+    
+    // 3. Close the Login Window
+    this.dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
 
     /**

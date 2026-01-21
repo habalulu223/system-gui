@@ -10,7 +10,7 @@ package main;
  * @author Administrator
  */
 public class loading extends javax.swing.JFrame {
-
+          
     static boolean isLogout;
 
     /**
@@ -21,6 +21,7 @@ String target;
 
 // CHANGE THE CONSTRUCTOR TO ACCEPT A STRING
 public loading(String destination) { 
+    
     initComponents();
     setLocationRelativeTo(null);
     

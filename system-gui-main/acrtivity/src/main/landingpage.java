@@ -5,6 +5,8 @@
  */
 package main;
 
+import config.DBC;
+
 /**
  *
  * @author Administrator
@@ -14,12 +16,86 @@ public class landingpage extends javax.swing.JFrame {
  
     public static boolean isLogout = false;
     public landingpage() {
-        initComponents();
-        
-        setSize(658, 320); 
+   initComponents();
+username.setText("Enter Username...");
+username.setForeground(new java.awt.Color(153, 153, 153)); // Gray
+
+username.addFocusListener(new java.awt.event.FocusAdapter() {
+    @Override
+    public void focusGained(java.awt.event.FocusEvent evt) {
+        if (username.getText().equals("Enter Username...")) {
+            username.setText("");
+            username.setForeground(java.awt.Color.BLACK);
+        }
+    }
+
+    @Override
+    public void focusLost(java.awt.event.FocusEvent evt) {
+        if (username.getText().isEmpty()) {
+            username.setText("Enter Username...");
+            username.setForeground(new java.awt.Color(153, 153, 153));
+        }
+    }
+});
+
+// ==========================================
+// 2. SETUP EMAIL FIELD (jTextField2)
+// ==========================================
+// Make sure this variable name matches your Email text field!
+email.setText("Enter Email...");
+email.setForeground(new java.awt.Color(153, 153, 153)); // Gray
+
+email.addFocusListener(new java.awt.event.FocusAdapter() {
+    @Override
+    public void focusGained(java.awt.event.FocusEvent evt) {
+        if (email.getText().equals("Enter Email...")) {
+            email.setText("");
+            email.setForeground(java.awt.Color.BLACK);
+        }
+    }
+
+    @Override
+    public void focusLost(java.awt.event.FocusEvent evt) {
+        if (email.getText().isEmpty()) {
+            email.setText("Enter Email...");
+            email.setForeground(new java.awt.Color(153, 153, 153));
+        }
+    }
+});
+
+// ==========================================
+// 3. SETUP PASSWORD FIELD (jPasswordField1)
+// ==========================================
+password.setEchoChar((char)0); // Start visible (so user can read "Enter Password")
+password.setText("Enter Password");
+password.setForeground(new java.awt.Color(153, 153, 153)); // Gray
+
+password.addFocusListener(new java.awt.event.FocusAdapter() {
+    @Override
+    public void focusGained(java.awt.event.FocusEvent evt) {
+        String pass = String.valueOf(password.getPassword());
+        if (pass.equals("Enter Password")) {
+            password.setText("");
+            password.setForeground(java.awt.Color.BLACK);
+            password.setEchoChar('*'); // Hide password with stars
+        }
+    }
+
+    @Override
+    public void focusLost(java.awt.event.FocusEvent evt) {
+        String pass = String.valueOf(password.getPassword());
+        if (pass.length() == 0 || pass.equals("")) {
+            password.setText("Enter Password");
+            password.setForeground(new java.awt.Color(153, 153, 153));
+            password.setEchoChar((char)0); // Make text visible again
+        }
+    }
+});
+
+
+setSize(750, 500);
+setLocationRelativeTo(null); // Center screen
     
-    // 2. Center it
-    setLocationRelativeTo(null);
     }
 
     /**
@@ -31,11 +107,17 @@ public class landingpage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        password = new javax.swing.JPasswordField();
+        username = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
+
+        jLabel4.setText("jLabel4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,24 +136,45 @@ public class landingpage extends javax.swing.JFrame {
         jPanel2.add(jLabel1);
         jLabel1.setBounds(10, 10, 320, 60);
 
-        jPanel3.setLayout(null);
+        jPanel1.add(jPanel2);
+        jPanel2.setBounds(0, 0, 670, 80);
+
+        jLabel3.setText("register ");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(240, 270, 50, 14);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel2.setText("logout");
+        jLabel2.setText("back");
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel2MouseClicked(evt);
             }
         });
-        jPanel3.add(jLabel2);
-        jLabel2.setBounds(0, 0, 40, 20);
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(380, 270, 40, 20);
 
-        jPanel2.add(jPanel3);
-        jPanel3.setBounds(620, 50, 40, 20);
+        password.setText("jPasswordField1");
+        jPanel1.add(password);
+        password.setBounds(240, 230, 170, 30);
 
-        jPanel1.add(jPanel2);
-        jPanel2.setBounds(0, 0, 670, 80);
+        username.setText("jTextField1");
+        username.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameActionPerformed(evt);
+            }
+        });
+        jPanel1.add(username);
+        username.setBounds(240, 170, 170, 30);
+
+        email.setText("jTextField2");
+        jPanel1.add(email);
+        email.setBounds(240, 200, 170, 30);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,13 +191,27 @@ public class landingpage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-    
-// CORRECT! We force it to go to "login"
-loading load = new loading("panell"); 
-load.setVisible(true);
-this.dispose();
-    
+         loading load = new loading("panell");
+        load.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+     DBC con = new DBC();  
+   String qry = "INSERT INTO Tbl_user ( username, email, password) VALUES ( ?, ?, ?)";
+     con.addRecord (qry, username.getText(), email.getText(), password.getText()  );
+     username.setText("");
+     email.setText("");
+     password.setText("");
+     javax.swing.JOptionPane.showMessageDialog(this, "Account Successfully Registered!");
+     loading load = new loading("panell");
+        load.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -132,10 +249,16 @@ this.dispose();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField email;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPasswordField password;
+    private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
+
+  
 }

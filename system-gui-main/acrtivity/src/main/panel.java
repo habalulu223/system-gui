@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package main;
 
 import java.awt.event.FocusEvent;
@@ -10,11 +6,9 @@ import java.awt.event.FocusListener;
 import javafx.scene.paint.Color;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.sql.*;
 
-/**
- *
- * @author Administrator
- */
+
 public class panel extends javax.swing.JFrame {
 
     /**
@@ -101,14 +95,16 @@ jPasswordField1.addFocusListener(new java.awt.event.FocusAdapter() {
         jTextField1 = new javax.swing.JTextField();
         jPasswordField1 = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 102, 102));
-        setPreferredSize(new java.awt.Dimension(800, 600));
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
-        jPanel1.setLayout(null);
+        jPanel1.setAutoscrolls(true);
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -116,14 +112,13 @@ jPasswordField1.addFocusListener(new java.awt.event.FocusAdapter() {
         jLabel1.setLabelFor(this);
         jLabel1.setText("Bike shop");
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(0, 0, 140, 40);
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 140, 40));
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 770, 70);
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel2.setLayout(null);
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTextField1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jTextField1.setText("Enter name");
@@ -133,15 +128,13 @@ jPasswordField1.addFocusListener(new java.awt.event.FocusAdapter() {
                 jTextField1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField1);
-        jTextField1.setBounds(290, 250, 200, 30);
+        jPanel2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 220, 200, 30));
 
         jPasswordField1.setText("jPasswordField1");
-        jPanel2.add(jPasswordField1);
-        jPasswordField1.setBounds(290, 280, 200, 30);
+        jPanel2.add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 280, 200, 30));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("log in");
         jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel2.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
@@ -154,11 +147,23 @@ jPasswordField1.addFocusListener(new java.awt.event.FocusAdapter() {
                 jLabel2MouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel2);
-        jLabel2.setBounds(370, 320, 34, 14);
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 320, 34, -1));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel3.setText("register");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 320, 50, -1));
+
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jLabel4.setText("welcome too bike shop");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 380, 110));
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(0, 70, 780, 400);
+        jPanel2.setBounds(0, 70, 770, 400);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -173,10 +178,56 @@ jPasswordField1.addFocusListener(new java.awt.event.FocusAdapter() {
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
 
-   loading load = new loading("home");
-load.setVisible(true);
-this.dispose();
+  
+String username = jTextField1.getText();
+String password = String.valueOf(jPasswordField1.getPassword());
+
+// 2. DEFINE A VARIABLE TO TRACK ERRORS
+boolean hasError = false;
+
+// 3. CHECK USERNAME
+// If username is empty OR equals the placeholder text
+if (username.equals("") || username.equals("Enter Username...")) {
+    jTextField1.setVisible(true); // Show Red *
+    jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED)); // Red Border
+    hasError = true;
+} else {
+    jTextField1.setVisible(false); // Hide Red *
+    jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY)); // Reset Border
+}
+
+// 4. CHECK PASSWORD
+if (password.equals("") || password.equals("Enter Password")) {
+    jPasswordField1.setVisible(true); // Show Red *
+    jPasswordField1.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED)); // Red Border
+    hasError = true;
+} else {
+    jPasswordField1.setVisible(false); // Hide Red *
+    jPasswordField1.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY)); // Reset Border
+}
+
+// 5. PROCEED ONLY IF NO ERRORS
+if (hasError == false) {
+    // --- YOUR SUCCESS CODE GOES HERE ---
+    
+    // Check credentials (Optional)
+    // if (username.equals("admin") && password.equals("123")) {
+        
+       loading load = new loading("page");
+        load.setVisible(true);
+        this.dispose();
+        
+    // } else {
+    //    javax.swing.JOptionPane.showMessageDialog(this, "Wrong Account!");
+    // }
+}
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+         loading load = new loading("landng");
+        load.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -215,6 +266,8 @@ this.dispose();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;

@@ -5,6 +5,8 @@
  */
 package main;
 
+import d.dashboard;
+
 /**
  *
  * @author Administrator
@@ -36,27 +38,36 @@ public loading(String destination) {
                 jProgressBar1.setValue(currentVal + 2);
             } 
             else {
-                ((javax.swing.Timer)e.getSource()).stop(); 
-                
-                // CHECK DESTINATION
-                if (destination.equals("panell")) {
-                    // Go to Login Panel
-                    // CHANGE 'panel' to your actual login class name if different
-                    panel login = new panel(); 
-                    login.setVisible(true);
-                } 
-                else {
-                    // Go to Landing Page
-                    // CHANGE 'kandingpage' to your actual class name
-                    landingpage home = new landingpage(); 
-                    home.setVisible(true);
-                }
-                
-                dispose(); 
+            ((javax.swing.Timer)e.getSource()).stop(); 
+            
+            // --- UPDATED LOGIC STARTS HERE ---
+            
+            // Check if the role passed is Admin
+            if (destination.equalsIgnoreCase("Admin")) {
+                new dashboard().setVisible(true);
+            } 
+            // Check if the role passed is User
+            else if (destination.equalsIgnoreCase("User")) {
+                new dashboard().setVisible(true);
             }
+            // Keep your old check for the Login panel (if you still use it)
+            else if (destination.equals("panell")) {
+                 panel login = new panel(); 
+                 login.setVisible(true);
+            }
+            // Default to landing page for anything else
+            else {
+                 landingpage home = new landingpage(); 
+                 home.setVisible(true);
+            }
+            
+            // --- UPDATED LOGIC ENDS HERE ---
+            
+            dispose(); // Close the loading screen
         }
-    });
-    timer.start();
+    }
+});
+timer.start();
 }
 // This constructor fixes the errors!
 // It tells Java: "If someone calls me without a destination, assume they mean 'home'."
